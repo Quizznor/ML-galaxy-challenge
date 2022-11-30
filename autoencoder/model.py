@@ -24,10 +24,17 @@ def get_encoder(latent_dim):
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.MaxPooling2D()(x)
+
+    x_skip = layers.Conv2D(64, 1, padding="same")(x_skip)
+    x_skip = layers.MaxPooling2D()(x)
+
     x = layers.Conv2D(64, 3, padding="same")(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.MaxPooling2D()(x)
+
+    x = layers.Add()([x_skip, x])
+
     x = layers.Conv2D(64, 3, padding="same")(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
