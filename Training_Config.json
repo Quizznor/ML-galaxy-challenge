@@ -3,6 +3,6 @@
     "save_model_folder": "/scratch/tmp/h_schu55/galaxies/Models/",
     "BATCH_SIZE" : 64,
     "epochs": 25,
-    "latent_dim": 128,
+    "latent_dim": 8,
     "learning_rate":0.001
 }
