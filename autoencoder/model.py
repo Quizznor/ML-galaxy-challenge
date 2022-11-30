@@ -4,7 +4,6 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 
-
 class Sampling(layers.Layer):
     """Uses (z_mean, z_log_var) to sample z, the vector encoding a digit."""
 
@@ -86,3 +85,9 @@ class VAE(keras.Model):
             "reconstruction_loss": self.reconstruction_loss_tracker.result(),
             "kl_loss": self.kl_loss_tracker.result(),
         }
+
+    def encode(self, image):
+        return self.encoder.predict(image).numpy()
+
+    def decode(self, latent_space_vector):
+        return self.decoder.predict(latent_space_vector).numpy()
