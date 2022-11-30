@@ -21,6 +21,9 @@ print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('
 
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 
+
+rng = jax.random.PRNGKey(0)
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--ConfigFile', nargs=1,
                     help='JSON config for Training',
@@ -40,9 +43,7 @@ run_name = wandb.run.name
 BATCH_SIZE = config_dict["BATCH_SIZE"]
 
 encoder = get_encoder()
-encoder.summary()
 decoder = get_decoder()
-decoder.summary()
 
 vae = VAE(encoder, decoder)
 
@@ -51,8 +52,6 @@ optimizer = keras.optimizers.Adam(
 )
 
 vae.compile(optimizer=optimizer)
-
-
 
 
 print("Load Data")
