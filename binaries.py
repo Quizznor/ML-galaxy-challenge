@@ -29,7 +29,13 @@ def plot_class_distances(NN, reference_image_str):
     except NameError:
         load_training_dataset()
 
-    classwise_distances = [[] for _ in range(np.unique(labels))]
+    unique_labels = np.unique(labels)
+    classwise_distances = [[] for _ in range(len(unique_labels))]
+
+    for l in unique_labels:
+
+        candidates = images[labels == l]
+        
 
     # reference_image = np.array(Image.open(reference_image_str))
     # reference_latent_position = NN.encoder(reference_image)
@@ -38,5 +44,6 @@ def plot_class_distances(NN, reference_image_str):
 
     # for image in images:
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
+    plot_class_distances(0, "./images/cropped/example_04.png")

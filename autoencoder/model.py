@@ -49,8 +49,14 @@ def get_decoder(latent_dim):
 class VAE(keras.Model):
     def __init__(self, encoder, decoder, **kwargs):
         super(VAE, self).__init__(**kwargs)
-        self.encoder = encoder
-        self.decoder = decoder
+
+        if isinstance(encoder, str) and isinstance(decoder, str):
+            self.encoder = keras.load_model(encoder)
+            self.decoder = keras.load_model(decoder)
+        else:
+            self.encoder = encoder
+            self.decoder = decoder
+
         self.total_loss_tracker = keras.metrics.Mean(name="total_loss")
         self.reconstruction_loss_tracker = keras.metrics.Mean(
             name="reconstruction_loss"
