@@ -10,12 +10,10 @@ class Save_Encoder(keras.callbacks.Callback):
 
     def __init__(self,
                  folder,
-                 save_every,
-                 name="encoder"):
+                 name="vae"):
 
         self.overall_idx = 0
         self.folder = folder
-        self.save_every = save_every
         self.name=name
 
     def on_epoch_end(self, epoch, logs={}):
