@@ -95,7 +95,7 @@ class VAE(keras.Model):
         }
 
     def encode(self, image):
-        return self.encoder.predict(image)
+        return self.encoder.predict(image, verbose = 0)
 
     def decode(self, latent_space_vector):
-        return self.decoder.predict(latent_space_vector).numpy()
+        return self.decoder.predict(latent_space_vector, verbose = 0)
