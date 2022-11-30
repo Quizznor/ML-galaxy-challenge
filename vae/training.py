@@ -14,6 +14,7 @@ import jax
 
 
 from model import Sampling, get_encoder, get_decoder, VAE
+from custom_callbacks import Save_Encoder
 
 
 from tensorflow.compat.v1 import ConfigProto
@@ -115,12 +116,14 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     save_best_only=True
     )
 
+save_callback = Save_Encoder(save_dir)
+
 
 history = vae.fit(images,
     verbose=1,
     epochs=config_dict["epochs"],
     callbacks=[
         WandbCallback(),
-        model_checkpoint_callback
+        save_callback
         ],
     )
