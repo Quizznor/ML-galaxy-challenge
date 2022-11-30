@@ -16,7 +16,7 @@ class Sampling(layers.Layer):
 
 def get_encoder(latent_dim):
     encoder_inputs = keras.Input(shape=(64, 64, 3))
-    x = layers.Conv2D(3, (3,3), padding="same")(encoder_inputs)
+    x = layers.Conv2D(16, (3,3), padding="same")(encoder_inputs)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.MaxPooling2D()(x)
