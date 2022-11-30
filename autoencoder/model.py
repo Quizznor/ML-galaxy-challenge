@@ -46,9 +46,9 @@ def get_encoder(latent_dim):
     encoder_inputs = keras.Input(shape=(64, 64, 3))
     x = layers.MaxPooling2D()(encoder_inputs)
     x = layers.Flatten()(x)
-    x = layers.Dense(256, (3,3), activation="relu")(x)
-    x = layers.Dense(64, (3,3), activation="relu")(x)
-    x = layers.Dense(32, (3,3), activation="relu")(x)
+    x = layers.Dense(256, activation="relu")(x)
+    x = layers.Dense(64, activation="relu")(x)
+    x = layers.Dense(32, activation="relu")(x)
 
     z_mean = layers.Dense(latent_dim, name="z_mean")(x)
     z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
