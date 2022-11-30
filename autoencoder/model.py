@@ -20,7 +20,7 @@ def get_encoder(latent_dim):
     x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(encoder_inputs)
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2D(64, 3, activation="relu", strides=1, padding="same")(x)
-    x = layers.Conv2D(128, 3, activation="relu", strides=2, padding="same")(x)
+    x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Flatten()(x)
     x = layers.Dense(64, activation="relu")(x)
     z_mean = layers.Dense(latent_dim, name="z_mean")(x)
@@ -39,7 +39,7 @@ def get_decoder(latent_dim):
     x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=1, padding="same")(x)
-    x = layers.Conv2DTranspose(128, 3, activation="relu", strides=2, padding="same")(x)
+    x = layers.Conv2DTranspose(54, 3, activation="relu", strides=2, padding="same")(x)
     decoder_outputs = layers.Conv2DTranspose(3, 3, activation="sigmoid", padding="same")(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
 
