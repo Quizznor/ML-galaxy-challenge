@@ -1,8 +1,8 @@
 {
     "training_data" : "/scratch/tmp/h_schu55/Data/Galaxy10.h5",
     "save_model_folder": "/scratch/tmp/h_schu55/galaxies/Models/",
-    "BATCH_SIZE" : 256,
+    "BATCH_SIZE" : 64,
     "epochs": 25,
-    "latent_dim": 128,
+    "latent_dim": 32,
     "learning_rate":0.001
 }

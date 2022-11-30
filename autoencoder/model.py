@@ -17,10 +17,12 @@ class Sampling(layers.Layer):
 
 def get_encoder(latent_dim):
     encoder_inputs = keras.Input(shape=(64, 64, 3))
-    x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(encoder_inputs)
+    x = layers.Conv2D(16, 5, activation="relu", strides=2, padding="same")(encoder_inputs)
+    x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
-    x = layers.Flatten()(x)
-    x = layers.Dense(16, activation="relu")(x)
+    x = layers.Conv2D(128, 3, activation="relu", strides=2, padding="same")(x)
+    x = tf.keras.layers.GlobalMaxPool2D()(x)
+    x = layers.Dense(32, activation="relu")(x)
     z_mean = layers.Dense(latent_dim, name="z_mean")(x)
     z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
     z = Sampling()([z_mean, z_log_var])
@@ -34,9 +36,9 @@ def get_decoder(latent_dim):
     latent_inputs = keras.Input(shape=(latent_dim,))
     x = layers.Dense(8 * 8 * 64, activation="relu")(latent_inputs)
     x = layers.Reshape((8, 8, 64))(x)
+    x = layers.Conv2DTranspose(16, 3, activation="relu", strides=2, padding="same")(x)
+    x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
-    x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
-    x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
     decoder_outputs = layers.Conv2DTranspose(3, 3, activation="sigmoid", padding="same")(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
 
