@@ -14,7 +14,7 @@ class Sampling(layers.Layer):
         epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
         return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
-def get_encoder(latent_dim):
+def get_encoder1(latent_dim):
     encoder_inputs = keras.Input(shape=(64, 64, 3))
     x = layers.Conv2D(16, (3,3), padding="same")(encoder_inputs)
     x = layers.BatchNormalization()(x)
@@ -42,7 +42,23 @@ def get_encoder(latent_dim):
     encoder.summary()
     return encoder
 
-def get_decoder(latent_dim):
+def get_encoder(latent_dim):
+    encoder_inputs = keras.Input(shape=(64, 64, 3))
+    x = layers.MaxPooling2D()(encoder_inputs)
+    x = layers.Flatten()(x)
+    x = layers.Dense(256, (3,3), padding="same")(x)
+    x = layers.Dense(64, (3,3), padding="same")(x)
+    x = layers.Dense(32, (3,3), padding="same")(x)
+
+    z_mean = layers.Dense(latent_dim, name="z_mean")(x)
+    z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
+    z = Sampling()([z_mean, z_log_var])
+    encoder = keras.Model(encoder_inputs, [z_mean, z_log_var, z], name="encoder")
+
+    encoder.summary()
+    return encoder
+
+def get_decoder1(latent_dim):
     latent_inputs = keras.Input(shape=(latent_dim,))
     x = layers.Dense(8 * 8 * 8, activation="relu")(latent_inputs)
     x = layers.Reshape((8, 8, 8))(x)
@@ -60,6 +76,22 @@ def get_decoder(latent_dim):
     x = layers.UpSampling2D()(x)
 
     decoder_outputs = layers.Conv2D(3, (3, 3), activation="sigmoid", padding="same")(x)
+    decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
+
+    decoder.summary()
+
+    return decoder
+
+
+def get_decoder(latent_dim):
+    latent_inputs = keras.Input(shape=(latent_dim,))
+    x = layers.Dense(64, activation="relu")(latent_inputs)
+    x = layers.Dense(128, activation="relu")(x)
+    x = layers.Dense(256, activation="relu")(x)
+    x = layers.Dense(64*64*3, activation="relu")(x)
+
+
+    decoder_outputs = layers.Reshape((64, 64, 3))(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
 
     decoder.summary()
