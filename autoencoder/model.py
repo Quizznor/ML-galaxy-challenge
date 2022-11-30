@@ -20,7 +20,6 @@ def get_encoder(latent_dim):
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2D(128, 3, activation="relu", strides=2, padding="same")(x)
-    x = layers.Conv2D(256, 3, activation="relu", strides=2, padding="same")(x)
     x = tf.keras.layers.GlobalMaxPool2D()(x)
     z_mean = layers.Dense(latent_dim, name="z_mean")(x)
     z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
