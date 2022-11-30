@@ -102,10 +102,10 @@ print("All Functions and Classes defined! Start with the Training!")
 
 model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     filepath=save_dir,
-    save_weights_only=True,
     monitor='loss',
     mode='min',
-    save_best_only=True)
+    save_best_only=True
+    )
 
 
 history = vae.fit(images,
