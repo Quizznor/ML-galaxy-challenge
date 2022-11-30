@@ -34,7 +34,7 @@ def get_encoder():
     return encoder
 
 
-def get_encoder():
+def get_decoder():
     latent_inputs = keras.Input(shape=(latent_dim,))
     x = layers.Dense(8 * 8 * 64, activation="relu")(latent_inputs)
     x = layers.Reshape((8, 8, 64))(x)
