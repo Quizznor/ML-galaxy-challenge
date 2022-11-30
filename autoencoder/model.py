@@ -25,12 +25,12 @@ def get_encoder(latent_dim):
     x = layers.LeakyReLU()(x)
     x = layers.MaxPooling2D()(x)
 
-    x = layers.Conv2D(32, 3, padding="same")(x)
+    x = layers.Conv2D(64, 3, padding="same")(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.MaxPooling2D()(x)
 
-    x = layers.Conv2D(32, 3, padding="same")(x)
+    x = layers.Conv2D(128, 3, padding="same")(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = tf.keras.layers.GlobalMaxPool2D()(x)
@@ -54,7 +54,7 @@ def get_decoder(latent_dim):
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.UpSampling2D()(x)
-    x = layers.Conv2D(32, 3, padding="same")(x)
+    x = layers.Conv2D(64, 3, padding="same")(x)
     x = layers.BatchNormalization()(x)
     x = layers.LeakyReLU()(x)
     x = layers.UpSampling2D()(x)
