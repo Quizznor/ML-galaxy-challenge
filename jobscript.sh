@@ -19,8 +19,9 @@ ml fosscuda
 ml TensorFlow
 ml matplotlib
 ml Pillow
+ml jax
 
 # START THE APPLICATION
-cd /scratch/tmp/h_schu55/galaxies/ML-GALAXY-CHALLENGE/
+cd /scratch/tmp/h_schu55/galaxies/ML-galaxy-challenge/
 
 python vae/training.py --ConfigFile Training_Config.json

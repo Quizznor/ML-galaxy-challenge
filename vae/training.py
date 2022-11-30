@@ -39,9 +39,9 @@ run_name = wandb.run.name
 
 BATCH_SIZE = config_dict["BATCH_SIZE"]
 
-encoder = get_encoder(config_dict)
+encoder = get_encoder()
 encoder.summary()
-decoder = get_decoder(config_dict)
+decoder = get_decoder()
 decoder.summary()
 
 vae = VAE(encoder, decoder)
