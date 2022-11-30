@@ -51,8 +51,8 @@ class VAE(keras.Model):
         super(VAE, self).__init__(**kwargs)
 
         if isinstance(encoder, str) and isinstance(decoder, str):
-            self.encoder = keras.load_model(encoder)
-            self.decoder = keras.load_model(decoder)
+            self.encoder = keras.models.load_model(encoder, custom_objects={'Sampling': Sampling,})
+            self.decoder = keras.models.load_model(decoder)
         else:
             self.encoder = encoder
             self.decoder = decoder
@@ -95,7 +95,7 @@ class VAE(keras.Model):
         }
 
     def encode(self, image):
-        return self.encoder.predict(image).numpy()
+        return self.encoder.predict(image)
 
     def decode(self, latent_space_vector):
         return self.decoder.predict(latent_space_vector).numpy()
