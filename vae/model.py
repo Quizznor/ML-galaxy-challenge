@@ -1,5 +1,5 @@
 import numpy as np
-import tensorflow as tf
+import tensorflow as tf 
 from tensorflow import keras
 from tensorflow.keras import layers
 
@@ -16,10 +16,7 @@ class Sampling(layers.Layer):
         return z_mean + tf.exp(0.5 * z_log_var) * epsilon
 
 
-latent_dim = 2
-
-
-def get_encoder():
+def get_encoder(latent_dim):
     encoder_inputs = keras.Input(shape=(64, 64, 3))
     x = layers.Conv2D(32, 3, activation="relu", strides=2, padding="same")(encoder_inputs)
     x = layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
@@ -34,7 +31,7 @@ def get_encoder():
     return encoder
 
 
-def get_decoder():
+def get_decoder(latent_dim):
     latent_inputs = keras.Input(shape=(latent_dim,))
     x = layers.Dense(8 * 8 * 64, activation="relu")(latent_inputs)
     x = layers.Reshape((8, 8, 64))(x)
