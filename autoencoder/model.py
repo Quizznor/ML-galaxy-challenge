@@ -22,7 +22,6 @@ def get_encoder(latent_dim):
     x = layers.Conv2D(128, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2D(256, 3, activation="relu", strides=2, padding="same")(x)
     x = tf.keras.layers.GlobalMaxPool2D()(x)
-    x = layers.Dense(32, activation="relu")(x)
     z_mean = layers.Dense(latent_dim, name="z_mean")(x)
     z_log_var = layers.Dense(latent_dim, name="z_log_var")(x)
     z = Sampling()([z_mean, z_log_var])
@@ -38,7 +37,6 @@ def get_decoder(latent_dim):
     x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(32, 3, activation="relu", strides=1, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
-    x = layers.Conv2DTranspose(128, 3, activation="relu", strides=2, padding="same")(x)
     decoder_outputs = layers.Conv2DTranspose(3, 3, activation="sigmoid", padding="same")(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
 
