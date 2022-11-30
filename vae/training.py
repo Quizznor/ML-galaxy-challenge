@@ -41,9 +41,10 @@ wandb.init(
 run_name = wandb.run.name
 
 BATCH_SIZE = config_dict["BATCH_SIZE"]
+latent_dim = config_dict["latent_dim"]
 
-encoder = get_encoder()
-decoder = get_decoder()
+encoder = get_encoder(latent_dim)
+decoder = get_decoder(latent_dim)
 
 vae = VAE(encoder, decoder)
 
@@ -108,7 +109,7 @@ model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
 
 
 history = vae.fit(images,
-    verbose=2,
+    verbose=1,
     epochs=config_dict["epochs"],
     callbacks=[
         WandbCallback(),
