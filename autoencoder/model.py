@@ -31,8 +31,8 @@ def get_encoder(latent_dim):
 
 def get_decoder(latent_dim):
     latent_inputs = keras.Input(shape=(latent_dim,))
-    x = layers.Dense(8 * 8 * 64, activation="relu")(latent_inputs)
-    x = layers.Reshape((8, 8, 64))(x)
+    x = layers.Dense(8 * 8 * 32, activation="relu")(latent_inputs)
+    x = layers.Reshape((8, 8, 32))(x)
     x = layers.Conv2DTranspose(32, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
     x = layers.Conv2DTranspose(64, 3, activation="relu", strides=2, padding="same")(x)
