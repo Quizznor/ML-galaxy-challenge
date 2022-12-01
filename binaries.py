@@ -8,8 +8,6 @@ import h5py
 
 # use Pythagorean norm (maybe weighted features in future?)
 def calculate_distance(features_1, features_2):
-
-
     return np.linalg.norm(np.array(features_1) - np.array(features_2))
 
 def load_training_dataset():
@@ -35,35 +33,43 @@ def get_closest_neighbour(NN, reference_image):
 
     if isinstance(reference_image, str):
         reference_image = np.array(Image.open(reference_image))
-        reference_latent_position = NN.encode(np.array([reference_image]).reshape(1,64,64,3))
+        reference_latent_position = NN.encode(np.array([reference_image]).reshape(1,64,64,3))[0][0]
 
     elif isinstance(reference_image, np.ndarray):
-        reference_latent_position = NN.encode(np.array([reference_image]).reshape(1,64,64,3))
+        reference_latent_position = NN.encode(np.array([reference_image]).reshape(1,64,64,3))[0][0]
 
     try:
         images == None
     except NameError:
         load_training_dataset()
 
-    min_distance = np.inf
-    min_index = 0
-    min_label = 0
+    predictions = np.array(NN.encoder.predict(images))
 
-    for i, (image, label) in enumerate(zip(images, labels)):    
-        current_distance = calculate_distance(NN.encode(np.array([image]).reshape(1,64,64,3)), reference_latent_position)
+    min_index, min_label = 0, 0
+    min_distance = np.inf
+
+    for i, prediction in enumerate(predictions[0, :, :]):
 
         print(f"{i}/{len(images)} -> Minimal distance: {min_distance:.4f} for image {min_index} in cluster {min_label}", end = "\r")
+
+        assert len(reference_latent_position) == len(prediction), "Dimensionality check failed"
+        current_distance = calculate_distance(prediction, reference_latent_position)
 
         if current_distance < min_distance:
 
             min_distance = current_distance
-            min_label = label
             min_index = i
 
+    print(f"\n Minimum distance = {min_distance} for image {min_index} found!")
+
     return images[min_index]
+
 
 
 if __name__ == "__main__":
 
     Network = VAE("./trained_models/vae_encoder_epoch_24.h5", "./trained_models/vae_decoder_epoch_24.h5")
-    get_closest_neighbour(Network, "./images/cropped/example_01.png")
+    min_neighbour = get_closest_neighbour(Network, "./images/cropped/example_04.png")
+
+    plt.imshow(min_neighbour)
+    plt.show()
