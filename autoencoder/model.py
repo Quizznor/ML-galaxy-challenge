@@ -40,8 +40,6 @@ def get_encoder(latent_dim):
     encoder.summary()
     return encoder
 
-
-
 def get_decoder(latent_dim):
     latent_inputs = keras.Input(shape=(latent_dim,))
     x = layers.Dense(8 * 8 * 32, activation="relu")(latent_inputs)
@@ -64,7 +62,6 @@ def get_decoder(latent_dim):
     decoder.summary()
 
     return decoder
-
 
 class VAE(keras.Model):
     def __init__(self, encoder, decoder, **kwargs):

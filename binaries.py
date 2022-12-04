@@ -57,6 +57,7 @@ def get_closest_neighbour(NN, reference_image):
 
         if current_distance < min_distance:
 
+            min_prediction = prediction
             min_distance = current_distance
             min_index = i
 
@@ -65,11 +66,7 @@ def get_closest_neighbour(NN, reference_image):
     return images[min_index]
 
 
-
 if __name__ == "__main__":
 
     Network = VAE("./trained_models/vae_encoder_epoch_24.h5", "./trained_models/vae_decoder_epoch_24.h5")
     min_neighbour = get_closest_neighbour(Network, "./images/cropped/example_04.png")
-
-    plt.imshow(min_neighbour)
-    plt.show()
